@@ -94,6 +94,40 @@ bool detectcycle(Node* head)
     }
     
 }
+void remove_Duplicates(Node* head,Node *prev)
+{
+    if(head==NULL||(prev==NULL&&head==NULL))
+    {
+        return ;
+        
+    }
+    
+    if(prev==NULL)
+    {
+        if(head->next!=NULL)
+        {
+        remove_Duplicates(head->next,head);
+        }
+        return;
+    }
+    else
+    {
+        
+        if(prev&&head&&prev->data==head->data)
+        {
+            prev->next=head->next;
+
+            remove_Duplicates(prev->next,prev);
+        }
+        else
+        {
+            remove_Duplicates(head->next,head);
+        }
+        
+    }
+    
+
+}
 int main()
 {
     Node* head=takeinput();
