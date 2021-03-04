@@ -1,57 +1,46 @@
-//all sub sequences
+//print all subsequences
+
 #include<bits/stdc++.h>
 using namespace std;
-set<string> subseq(string str)
+bool cmp(string a,string b)
 {
-    if(str.size()==0)
+    return a.length()<b.length();
+}
+int  printSubSeq(string str,vector<string> &ans)
+{
+    if(str.length()==0)
     {
-        set<string> ans;
-        return ans;
+        return 0;
     }
-    if(str.size()==1)
+    else if(str.length()==0)
     {
-        set<string> ans;
-        ans.insert(str);
-        return ans;
+        ans.push_back(str);
+        return 1;   
     }
-    else
-    {
-        set<string> ans1=subseq(str.substr(1));
-       set<string> ans;
-        set<string>::iterator i;
-        string temp=str.substr(0,1);
-        ans.insert(temp);
-        for(i=ans1.begin();i!=ans1.end();i++)
+    else{
+        vector<string>s;
+        int sma=printSubSeq(str.substr(1),s);
+        ans.push_back(str.substr(0,1));
+        for(int i=0;i<sma;i++)
         {
-            ans.insert(*i);
-            ans.insert(temp+*i);
+            ans.push_back(s[i]);
+            ans.push_back(str[0]+s[i]);
         }
-
-        return ans;
-
+       // sort(ans.begin(),ans.end(),cmp);
+        return ans.size();
+        
 
     }
 }
 int main()
 {
-    string str; 
-    cin>>str;
-    set<string>ans =subseq(str);
-    set<string>::iterator i;
-    cout<<ans.size()<<endl;
-    int max=INT_MIN;
-    string a;
-    for( i=ans.begin();i!=ans.end();i++)
-    {
-        string temp=string(*i);
-        if(temp.length()>=max)
-        {
-            max=temp.length();
-            a=temp;
-            cout<<temp<<endl;
-        }
+    string str;cin>>str;
 
-       // cout<<*i<<" ";
+    vector<string>ans;
+    int a=printSubSeq(str,ans);
+    sort(ans.begin(),ans.end(),cmp);
+    for(int i=0;i<ans.size();i++)
+    {
+        cout<<ans[i]<<endl;
     }
-    cout<<a<<endl;
 }
